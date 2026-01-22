@@ -1,21 +1,11 @@
-const sections = document.querySelectorAll(".fade");
-const navLinks = document.querySelectorAll("nav a");
+const reveals = document.querySelectorAll(".reveal");
 
-window.addEventListener("scroll", () => {
-  let current = "";
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 120;
-    if (scrollY >= sectionTop) {
-      section.classList.add("show");
-      current = section.getAttribute("id");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
     }
   });
+}, { threshold: 0.15 });
 
-  navLinks.forEach(link => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
-    }
-  });
-});
+reveals.forEach(el => observer.observe(el));
